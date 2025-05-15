@@ -357,13 +357,13 @@ void insert(int x) {
 ### 查找最大值
 
 ```cpp
-long long max = *max_element(v.begin(), v.end());
-long long max = std::ranges::max(v);  C++20
+auto max = *max_element(v.begin(), v.end());
+auto max = std::ranges::max(v);  //C++20
 ```
 
 ```cpp
-long long min = *min_element(v.begin(), v.end());
-long long min = std::ranges::min(v);  C++20
+auto min = *min_element(v.begin(), v.end());
+auto min = std::ranges::min(v);  //C++20
 ```
 
 ### 二分查找
@@ -371,7 +371,6 @@ long long min = std::ranges::min(v);  C++20
 ```cpp
 lower_bound(v.begin(), v.end(), target);  查找第一个大于等于target目标值的位置
 upper_bound(v.begin(), v.end(), target); 查找第一个大于target目标值的位置
-binary_search(v.begin(), v.end(), target); 查找target是否存在，找到返回true，否则返回false
 ```
 
 ### 找第k小的数
@@ -390,7 +389,7 @@ long long sum = accumulate(v.begin(), v.end(), 0ll);
 
 ```cpp
 reverse(s.begin(), s.end());
-std::ranges::reverse(s);  C++20
+std::ranges::reverse(s);  //C++20
 ```
 
 ### 转换大小写
@@ -404,7 +403,7 @@ std::transform(s.begin(), s.end(), s.begin(), ::tolower);
 ```cpp
 sort(v.begin(), v.end());  默认升序
 sort(v.begin(), v.end(), greater<>());  降序
-std::ranges::sort(v);  C++20
+std::ranges::sort(v);  //C++20
 ```
 
 ### 排列
@@ -462,11 +461,7 @@ for (int i = 0; i < n; i++) {
         std::swap(matrix[i][j], matrix[j][i]);
     }
 }
-for (int i = 0; i < n; i++) {
-    for (int j = 0; j < n / 2; j++) {
-        std::swap(matrix[i][j], matrix[i][n - j - 1]);
-    }
-}
+std::reverse(matrix.begin(), matrix.end());
 ```
 
 ## 枚举子集
