@@ -435,7 +435,16 @@ std::ranges::sort(v);  C++20
 ### 排列
 
 ```cpp
-std::iota(v.begin(), v.end(), 0) //从0 ~ n - 1的全排列
+std::iota(v.begin(), v.end(), 0) //从0 ~ n - 1的排列
+
+std::vector<int> v(4);
+std::iota(v.begin(), v.end(), 0);
+do {
+    for (int i = 1; i <= 3; i++) {
+        std::cout << v[i] << " \n"[i == 3];
+    }
+} while (std::next_permutation(v.begin() + 1, v.end())); //构造一个全排列
+
 ```
 
 ### 返回 $n$ 二进制下左边第一个 $1$ 的位置
