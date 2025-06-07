@@ -17,21 +17,6 @@
 
 ## 并查集
 
-### 合并
-```cpp
-void merge() { 
-    p[find(x)] = find(y);
-}
-```
-
-### 路径压缩
-```cpp
-int find(int n) { 
-    return p[n] = (p[n] == n ? n : find(p[n]));
-}
-```
-
-
 ```cpp
 struct DSU {
     std::vector<int> f, siz;
@@ -70,6 +55,35 @@ struct DSU {
     }
 };
 ```
+
+## 珂朵莉树
+
+```cpp
+struct Chtholly {
+    const int n;
+    std::map<int, int> mp;
+    Chtholly(int n) : n(n) { mp[-1] = 0; }
+
+    void split(int x) {
+        auto it = prev(mp.upper_bound(x));
+        mp[x] = it->second;
+    }
+    void assign(int l, int r, int v) { // 注意，这里的r是区间右端点+1
+        split(l);
+        split(r);
+        for (auto it = mp.find(l); it->first != r; it = mp.erase(it));
+        mp[l] = v;
+    }
+    void update(int l, int r, int c) {
+        split(l);
+        split(r);
+        for (auto it = mp.find(l); it->first != r; it = std::next(it)) {
+            // 根据题目需要做些什么
+        }
+    }
+};
+```
+
 # 数论
 
 ## 快速幂
