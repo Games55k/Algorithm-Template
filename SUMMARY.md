@@ -75,15 +75,15 @@ struct Fenwick {
     }
 
     void add(int x, const T &v) {
-        for (int i = x + 1; i <= n; i += i & -i) {
-            a[i - 1] = a[i - 1] + v;
+        for (int i = x; i < n; i += i & -i) {
+            a[i] += v;
         }
     }
 
     T sum(int x) {
         T ans{};
         for (int i = x; i > 0; i -= i & -i) {
-            ans = ans + a[i - 1];
+            ans += a[i];
         }
         return ans;
     }
@@ -96,9 +96,9 @@ struct Fenwick {
         int x = 0;
         T cur{};
         for (int i = 1 << std::__lg(n); i; i /= 2) {
-            if (x + i <= n && cur + a[x + i - 1] <= k) {
+            if (x + i <= n && cur + a[x + i] <= k) {
                 x += i;
-                cur = cur + a[x - 1];
+                cur = cur + a[x];
             }
         }
         return x;
