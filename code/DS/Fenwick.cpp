@@ -9,11 +9,11 @@ struct Fenwick {
 
     void init(int n_) {
         n = n_;
-        a.assign(n, T{});
+        a.assign(n + 1, T{});
     }
 
     void add(int x, const T &v) {
-        for (int i = x; i < n; i += i & -i) {
+        for (int i = x; i <= n; i += i & -i) {
             a[i] += v;
         }
     }
@@ -27,16 +27,17 @@ struct Fenwick {
     }
 
     T rangeSum(int l, int r) {
-        return sum(r) - sum(l);
+        return sum(r) - sum(l - 1);
     }
-    
+
+    //前缀和不超过 k 的最大下标 x
     int select(const T &k) {
         int x = 0;
         T cur{};
-        for (int i = 1 << std::__lg(n); i; i /= 2) {
+        for (int i = 1 << std::__lg(n); i; i >>= 1) {
             if (x + i <= n && cur + a[x + i] <= k) {
                 x += i;
-                cur = cur + a[x];
+                cur += a[x];
             }
         }
         return x;
