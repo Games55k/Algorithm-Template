@@ -219,7 +219,7 @@ struct Chtholly {
 };
 ```
 
-# 数论
+# 数学
 
 ## 快速幂
 
@@ -262,6 +262,79 @@ void sieve(int n) {
     }
 }
 
+```
+## 组合数
+
+### 逆元求组合数
+复杂度 $n \log n$
+```cpp
+struct Comb {
+    std::vector<i64> fac, invf;
+
+    Comb() {}
+    Comb(int n) {
+        init(n + 1);
+    }
+    
+    void init(int n) {
+        fac.resize(n), invf.resize(n);
+        fac[0] = invf[0] = 1;
+        for (int i = 1; i < n; i++) {
+            fac[i] = fac[i - 1] * i % mod;
+            invf[i] = binpow(fac[i], mod - 2, mod);
+        }
+    }
+
+    i64 binpow(i64 a, i64 b, i64 mod) {
+        i64 res = 1;
+        while (b) {
+            if (b & 1) res = res * a % mod;
+            a = a * a % mod;
+            b >>= 1;
+        }
+        return res;
+    }
+
+
+    i64 C(int n, int k, int mod) {
+        if (k < 0 || k > n) return 0;
+        return fac[n] * invf[k] % mod * invf[n - k] % mod;
+    }
+};
+
+```
+
+### 卢卡斯求组合数
+适用于 $a < 10^{18}, p < 10 ^ 5$
+```cpp
+auto binpow = [](i64 a, i64 b, i64 p) -> i64 {
+        i64 res = 1ll;
+        while (b) {
+            if (b & 1) res = res * a % p;
+            a = a * a % p;
+            b >>= 1;
+        }
+        return res;
+};
+
+i64 C(i64 a, i64 b, i64 p) {
+    if (b > a) {
+        return 0;
+    }
+    i64 res = 1;
+    for(i64 i = 1, j = a; i <= b; i++, j--)
+    {
+        res = res * j % p;
+        res = res * binpow(i, p - 2, p) % p;
+    }
+    return res;
+}
+i64 lucas(i64 a, i64 b, i64 p) {
+    if(a < p && b < p) {
+        return C(a, b, p);
+    }
+    return (C(a % p, b % p, p) * lucas(a / p, b / p, p)) % p;
+}
 ```
 
 ## Exgcd
