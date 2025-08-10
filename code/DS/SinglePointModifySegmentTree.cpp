@@ -1,5 +1,3 @@
-//1.区间加和单点修改
-
 struct SegmentTree {
     int n;
     std::vector<int> tag;
